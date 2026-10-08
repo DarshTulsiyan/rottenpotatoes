@@ -18,9 +18,20 @@ more_movies = [
   { title: 'Nomadland', rating: 'R',
     release_date: '19-Feb-2021' },
   { title: 'CODA', rating: 'PG-13',
-    release_date: '13-Aug-2021' }
+    release_date: '13-Aug-2021' },
+    { title: "Inception", rating: "PG-13",
+    release_date: "2010-07-16" },
+  { title: "Interstellar", rating: "PG-13",
+    release_date: "2014-11-07" },
+  { title: "The Lion King", rating: "G",
+    release_date: "1994-06-24" }
 ]
 
-more_movies.each do |movie|
-  Movie.create!(movie)
+more_movies.each do |attributes|
+  Movie.find_or_create_by!(
+    title: attributes[:title],
+    release_date: attributes[:release_date]
+  ) do |movie|
+    movie.rating = attributes[:rating]
+  end
 end

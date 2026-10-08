@@ -4,13 +4,57 @@
 
 <h1>Movies</h1>
 
-<div id="movies">
-  <% @movies.each do |movie| %>
-    <%= render movie %>
-    <p>
-      <%= link_to "Show this movie", movie %>
-    </p>
-  <% end %>
-</div>
+<p>
+  <%= link_to "Add a movie", new_movie_path %>
+</p>  
 
-<%= link_to "New movie", new_movie_path %>
+<table>
+  <thead>
+    <tr>
+      <% ["title", "rating", "release_date"].each do |column| %>
+        <% selected = @sort == column %>
+        <% direction = selected && @direction == "asc" ? "desc" : "asc" %>
+
+        <th scope="col"
+            class="<%= @direction if selected %>"
+            aria-sort="<%= selected ? (@direction == "asc" ? "ascending" : "descending") : "none" %>">
+
+          <%= link_to column.humanize,
+                      movies_path(sort: column, direction: direction) %>
+
+          <% if selected %>
+            <span><%= @direction == "asc" ? "▲" : "▼" %></span>
+          <% end %>
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @movies.each do |movie| %>
+      <tr>
+        <td class="<%= @direction if @sort == "title" %>">
+          <%= link_to movie.title, movie_path(movie) %>
+        </td>
+
+        <td class="<%= @direction if @sort == "rating" %>">
+          <%= movie.rating %>
+        </td>
+
+        <td class="<%= @direction if @sort == "release_date" %>">
+          <%= movie.release_date&.strftime("%d %b %Y") %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td colspan="3">
+        Total: <%= @movies.size %> movies
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<p>▲ Ascending &nbsp; ▼ Descending</p>
