@@ -87,6 +87,8 @@ The seed data includes movies such as:
 
 Run `bin/rails db:seed` to load the sample data.
 
+Link: https://darsh-rottenpotatoes-802e37476da6.herokuapp.com/movies
+
 ## Author
 
 [Darsh Tulsiyan](https://github.com/DarshTulsiyan)
